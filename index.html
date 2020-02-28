@@ -1,0 +1,352 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>A dependency-free Vanilla JS modal</title>
+</head>
+
+<body>
+
+  <style>
+    .modal {
+      display: none;      
+    }
+    .modal__overlay {
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      z-index: 200;
+      opacity: 0;
+      
+      transition: opacity 0.2s;
+      will-change: opacity;
+      background-color: #000;
+
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;      
+    }
+
+    .modal__header {
+      /* Optional */
+      padding: 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .modal__close {
+      /* Optional */
+      margin: 0;
+      padding: 0;
+      border: none;
+      background-color: transparent;
+      cursor: pointer;
+      background-image: url("data:image/svg+xml,%0A%3Csvg width='15px' height='16px' viewBox='0 0 15 16' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'%3E%3Cg id='Page-1' stroke='none' stroke-width='1' fill='none' fill-rule='evenodd'%3E%3Cg id='2.-Menu' transform='translate(-15.000000, -13.000000)' stroke='%23000000'%3E%3Cg id='Group' transform='translate(15.000000, 13.521000)'%3E%3Cpath d='M0,0.479000129 L15,14.2971819' id='Path-3'%3E%3C/path%3E%3Cpath d='M0,14.7761821 L15,-1.24344979e-14' id='Path-3'%3E%3C/path%3E%3C/g%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      width: 15px;
+      height: 15px;
+    }
+
+    .modal__wrapper {
+      width: 100%;
+      z-index: 9999;
+      overflow: auto;
+      opacity: 0;
+
+      max-width: 540px;
+      max-height: 80vh;
+      
+      transition: transform 0.2s, opacity 0.2s;
+      will-change: transform;
+      background-color: #fff;
+     
+      display: flex;
+      flex-direction: column; 
+
+      -webkit-transform: translateY(5%);
+      transform: translateY(5%);
+      
+      -webkit-overflow-scrolling: touch; /* enables momentum scrolling in iOS overflow elements */
+
+      /* Optional */
+      box-shadow: 0 2px 6px #777;
+      border-radius: 5px;    
+      margin: 20px;  
+    }
+
+    .modal__content {
+      position: relative;
+      overflow-x: hidden;
+      overflow-y: auto;
+      height: 100%;
+      flex-grow: 1;
+      /* Optional */
+      padding: 1.5rem;
+    }
+
+    .modal.is-active {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: fixed;
+      top: 0;
+      right: 0;
+      left: 0;
+      bottom: 0;   
+    }
+
+    .modal.is-visible .modal__wrapper {
+      opacity: 1;
+      -webkit-transform: translateY(0);
+      transform: translateY(0);
+    }
+
+    .modal.is-visible .modal__overlay {
+      opacity: 0.5;
+    }
+  </style>
+
+  <h1>
+    A dependency-free Vanilla JS modal
+    <a href="https://github.com/tomaszbujnowicz/vanilla-js-modal">GitHub repo</a>
+  </h1>
+
+  <div>
+    <a href="#" data-modal-trigger aria-controls="modal-name" aria-expanded="false">Open modal</a>
+  </div>
+
+  <div>
+    <a href="#" data-modal-trigger aria-controls="modal-name-long" aria-expanded="false">Open modal with long content</a>
+  </div> 
+
+  <section class="modal" id="modal-name" data-modal-target>
+    <div class="modal__overlay" data-modal-close tabindex="-1"></div>
+    <div class="modal__wrapper">
+      <div class="modal__header">
+        <div class="modal__title">
+          Header Title
+        </div>
+        <button class="modal__close" data-modal-close aria-label="Close Modal"></button>
+      </div>
+      <div class="modal__content">
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem in aliquid nulla, sed veritatis, officiis ea aut
+          natus quas voluptates perferendis ratione modi ab qui omnis cum labore alias eos.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="modal" id="modal-name-long" data-modal-target>
+    <div class="modal__overlay" data-modal-close tabindex="-1"></div>
+    <div class="modal__wrapper">
+      <div class="modal__header">
+        <div class="modal__title">
+          Header Title
+        </div>
+        <button class="modal__close" data-modal-close aria-label="Close Modal"></button>
+      </div>
+      <div class="modal__content">
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem in aliquid nulla, sed veritatis, officiis ea aut
+          natus quas voluptates perferendis ratione modi ab qui omnis cum labore alias eos.
+        </p>
+        <div style="padding: 100px 0;"></div>
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam aut exercitationem laborum vero tenetur
+          officiis facilis eveniet sunt quo voluptatibus sit reiciendis, iusto quia et quidem? Dolores dolor et
+          necessitatibus.
+        </p>
+        <div style="padding: 100px 0;"></div>
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam aut exercitationem laborum vero tenetur
+          officiis facilis eveniet sunt quo voluptatibus sit reiciendis, iusto quia et quidem? Dolores dolor et
+          necessitatibus.
+        </p>
+        <div style="padding: 100px 0;"></div>
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam aut exercitationem laborum vero tenetur
+          officiis facilis eveniet sunt quo voluptatibus sit reiciendis, iusto quia et quidem? Dolores dolor et
+          necessitatibus.
+        </p>
+        <div style="padding: 100px 0;"></div>
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam aut exercitationem laborum vero tenetur
+          officiis facilis eveniet sunt quo voluptatibus sit reiciendis, iusto quia et quidem? Dolores dolor et
+          necessitatibus.
+        </p>
+      </div>
+    </div>
+  </section>  
+
+  <script>
+
+    /*!
+    * Based on articles on
+    * https://gomakethings.com
+    */
+
+    var modal = function () {
+
+      /**
+      * Element.closest() polyfill
+      * https://developer.mozilla.org/en-US/docs/Web/API/Element/closest#Polyfill
+      */
+      if (!Element.prototype.closest) {
+        if (!Element.prototype.matches) {
+          Element.prototype.matches = Element.prototype.msMatchesSelector || Element.prototype.webkitMatchesSelector;
+        }
+        Element.prototype.closest = function (s) {
+          var el = this;
+          var ancestor = this;
+          if (!document.documentElement.contains(el)) return null;
+          do {
+            if (ancestor.matches(s)) return ancestor;
+            ancestor = ancestor.parentElement;
+          } while (ancestor !== null);
+          return null;
+        };
+      }
+
+
+      //
+      // Settings
+      //
+      var settings = {
+        speedOpen: 50,
+        speedClose: 250,
+        activeClass: 'is-active',
+        visibleClass: 'is-visible',
+        selectorTarget: '[data-modal-target]',
+        selectorTrigger: '[data-modal-trigger]',
+        selectorClose: '[data-modal-close]',
+
+      };
+
+
+      //
+      // Methods
+      //
+
+      // Toggle accessibility
+      var toggleccessibility = function (event) {
+        if (event.getAttribute('aria-expanded') === 'true') {
+          event.setAttribute('aria-expanded', false);
+        } else {
+          event.setAttribute('aria-expanded', true);
+        }   
+      };
+
+      // Open Modal
+      var openModal = function (trigger) {
+
+        // Find target
+        var target = document.getElementById(trigger.getAttribute('aria-controls'));
+
+        // Make it active
+        target.classList.add(settings.activeClass);
+
+        // Make body overflow hidden so it's not scrollable
+        document.documentElement.style.overflow = 'hidden';
+
+        // Toggle accessibility
+        toggleccessibility(trigger);
+
+        // Make it visible
+        setTimeout(function () {
+          target.classList.add(settings.visibleClass);
+        }, settings.speedOpen); 
+
+      };
+
+      // Close Modal
+      var closeModal = function (event) {
+
+        // Find target
+        var closestParent = event.closest(settings.selectorTarget),
+          childrenTrigger = document.querySelector('[aria-controls="' + closestParent.id + '"');
+
+        // Make it not visible
+        closestParent.classList.remove(settings.visibleClass);
+
+        // Remove body overflow hidden
+        document.documentElement.style.overflow = '';
+
+        // Toggle accessibility
+        toggleccessibility(childrenTrigger);
+
+        // Make it not active
+        setTimeout(function () {
+          closestParent.classList.remove(settings.activeClass);
+        }, settings.speedClose);             
+
+      };
+
+      // Click Handler
+      var clickHandler = function (event) {
+
+        // Find elements
+        var toggle = event.target,
+          open = toggle.closest(settings.selectorTrigger),
+          close = toggle.closest(settings.selectorClose);
+
+        // Open modal when the open button is clicked
+        if (open) {
+          openModal(open);
+        }
+
+        // Close modal when the close button (or overlay area) is clicked
+        if (close) {
+          closeModal(close);
+        }
+
+        // Prevent default link behavior
+        if (open || close) {
+          event.preventDefault();
+        }
+
+      };
+
+      // Keydown Handler, handle Escape button
+      var keydownHandler = function (event) {
+
+        if (event.key === 'Escape' || event.keyCode === 27) {
+
+          // Find all possible modals
+          var modals = document.querySelectorAll(settings.selectorTarget),
+            i;
+
+          // Find active modals and close them when escape is clicked
+          for (i = 0; i < modals.length; ++i) {
+            if (modals[i].classList.contains(settings.activeClass)) {
+              closeModal(modals[i]);
+            }
+          }
+
+        }
+
+      };
+
+
+      //
+      // Inits & Event Listeners
+      //
+      document.addEventListener('click', clickHandler, false);
+      document.addEventListener('keydown', keydownHandler, false);
+
+
+    };
+
+    modal();
+
+  </script>
+
+</body>
+</html>
