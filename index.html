@@ -299,9 +299,8 @@
         // Make it visible
         setTimeout(function () {
           target.classList.add(settings.visibleClass);
+          trapFocus(target);
         }, settings.speedOpen); 
-
-        trapFocus(target);
 
       };
 
