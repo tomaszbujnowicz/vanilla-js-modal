@@ -4,6 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" />
   <title>A dependency-free Vanilla JS modal</title>
 </head>
 
@@ -90,7 +91,7 @@
       /* Optional */
       padding: 1.5rem;
     }
-
+    
     .modal.is-active {
       display: flex;
       justify-content: center;
@@ -112,6 +113,22 @@
     .modal.is-visible .modal__overlay {
       opacity: 0.5;
     }
+
+    /* Optional styling */
+    body {
+      padding: 20px;
+    }
+    .button {
+      display: inline-block;
+      border: none;
+      background: transparent;
+      margin: 0;
+      padding: 0;
+      text-decoration: none;
+      color: #000;
+      margin-bottom: 8px;
+      cursor: pointer;
+    }
   </style>
 
   <h1>
@@ -120,11 +137,13 @@
   </h1>
 
   <div>
-    <a href="#" data-modal-trigger aria-controls="modal-name" aria-expanded="false">Open modal</a>
+    <button data-modal-trigger aria-controls="modal-name" aria-expanded="false" class="button">
+      Open modal
+    </button>
   </div>
 
   <section class="modal" id="modal-name" data-modal-target>
-    <div class="modal__overlay" data-modal-close tabindex="-1"></div>
+    <div class="modal__overlay" data-modal-close data-modal-overlay tabindex="-1"></div>
     <div class="modal__wrapper">
       <div class="modal__header">
         <div class="modal__title">
@@ -143,13 +162,48 @@
       </div>
     </div>
   </section>
+  
 
   <div>
-    <a href="#" data-modal-trigger aria-controls="modal-name-long" aria-expanded="false">Open modal with long content</a>
+    <a href="#modal-autofocus" aria-expanded="false" class="button">
+      Open modal and autofocus on input field
+    </a>
+  </div>
+
+  <section class="modal" id="modal-autofocus" data-modal-target>
+    <div class="modal__overlay" data-modal-close data-modal-overlay tabindex="-1"></div>
+    <div class="modal__wrapper">
+      <div class="modal__header">
+        <div class="modal__title">
+          Header Title
+        </div>
+        <button class="modal__close" data-modal-close aria-label="Close Modal"></button>
+      </div>
+      <div class="modal__content">
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem in aliquid nulla, sed veritatis, officiis ea aut
+          natus quas voluptates perferendis ratione modi ab qui omnis cum labore alias eos.
+        </p>
+        <div>
+          <label for="example"">Autofocus when opening modal</label>
+          <input type="text" name="example" id="example" placeholder="Example" data-modal-input-focus autofocus>
+        </div>        
+        <p>
+          <a href="#" data-modal-close>Close Modal</a>
+        </p>
+      </div>
+    </div>
+  </section>  
+
+
+  <div>
+    <button data-modal-trigger aria-controls="modal-name-long" aria-expanded="false" class="button">
+      Open modal with long content
+    </button>
   </div>   
 
   <section class="modal" id="modal-name-long" data-modal-target>
-    <div class="modal__overlay" data-modal-close tabindex="-1"></div>
+    <div class="modal__overlay" data-modal-close data-modal-overlay tabindex="-1"></div>
     <div class="modal__wrapper">
       <div class="modal__header">
         <div class="modal__title">
